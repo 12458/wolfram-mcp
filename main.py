@@ -11,7 +11,16 @@ session = WolframLanguageSession()
 
 @eval_mcp.tool
 def eval_wolfram(code: str) -> str:
-    """Evaluate a Wolfram Language expression and return its result as a string."""
+    """
+    Evaluate a Wolfram Language expression and return its result as a string.
+    Args:
+        code (str): A string representing a Wolfram Language expression.
+    Returns:
+        A string representing the result of the Wolfram Language expression.
+    Raises:
+        WolframClientException: If there is an error in the Wolfram Language expression.
+        Exception: If there is an unexpected error.
+    """
     try:
         expr = wlexpr(code)
         result = session.evaluate(expr)
