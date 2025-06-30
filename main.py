@@ -1,7 +1,13 @@
 from fastmcp import FastMCP
 from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.language import wlexpr
-from wolframclient.exception import WolframClientException
+from wolframclient.exception import (
+    WolframLanguageException,
+    WolframKernelException,
+    WolframEvaluationException,
+    RequestException,
+    SocketException
+)
 
 # Initialize FastMCP server
 eval_mcp = FastMCP("Wolfram REPL MCP")
@@ -25,8 +31,16 @@ def eval_wolfram(code: str) -> str:
         expr = wlexpr(code)
         result = session.evaluate(expr)
         return repr(result)
-    except WolframClientException as e:
-        return f"Wolfram Client Error: {e}"
+    except WolframKernelException as e:
+        return f"Wolfram Kernel Error: {e}"
+    except WolframEvaluationException as e:
+        return f"Wolfram Evaluation Error: {e}"
+    except RequestException as e:
+        return f"Wolfram Request Error: {e}"
+    except SocketException as e:
+        return f"Wolfram Socket Error: {e}"
+    except WolframLanguageException as e:
+        return f"Wolfram Language Error: {e}"
     except Exception as e:
         return f"Unexpected Error: {e}"
 
